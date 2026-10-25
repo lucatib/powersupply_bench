@@ -1,41 +1,41 @@
-# Powerbench 3D — video del giro a 360°
+﻿# Video del giro a 360° (slow motion fluido)
 
-Video renderizzato del powerbench (modello Fusion) con giro di camera e la shell che sfuma e riappare.
+File finale: `video/powerbench_360_slowmo_fluido.mp4` — 5,9 s, 1280×720, 48 fps. Giro di camera attorno al modello
+con la shell (BodyTop, BodyBot, BodyLeft, BodyRight, Front, Back) che sfuma e riappare prima di chiudere il cerchio.
 
-## Video (`video/`)
-- `powerbench_360_slowmo_fluido.mp4` — **finale**: slow motion 2x, 5,9 s, 1280×720, 48 fps.
-- `powerbench_360_slowmo.mp4` — stessa cosa a 24 fps (v1).
-- `powerbench_360_slowmo_dissolvenza.mp4` — slow motion con frame intermedi a dissolvenza (doppi contorni sui pezzi veloci).
-- `powerbench_360_dissolvenza.mp4` — base non rallentata, 3 s, 24 fps.
+## Cosa serve
+| File | Ruolo |
+|---|---|
+| `video/fusion_scripts/Powerbench360Render` | Script Fusion: renderizza i 72 frame, in due passate |
+| `video/tools/blend_shell.py` | Sfuma la shell mescolando le due passate |
+| `video/tools/slowmo_fluido.py` | Slow motion (ffmpeg) → mp4 finale |
+| ffmpeg | `winget install Gyan.FFmpeg` |
 
-## Come è stato costruito
-1. **Render in Fusion** (ray tracing locale, 72 frame, 1280×720, qualità 40) con la camera che orbita attorno al modello.
-   Il renderer ignora l'opacità, quindi due passate:
-   - `video/frames/visible/` — frame 0–71 con la shell visibile
-   - `video/frames/hidden/` — frame 10–58 con la shell nascosta (BodyTop, BodyBot, BodyLeft, BodyRight, Front, Back)
-2. **Dissolvenza** (`video/tools/blend_shell.py`): mescola visible/hidden con una curva smoothstep
-   (sparisce tra 15% e 35% del giro, nascosta fino al 60%, riappare entro l'80%) → `video/frames/blended/`.
-3. **Slow motion** con ffmpeg (interpolazione a movimento stimato, 4x, riprodotta a 48 fps):
+I frame PNG (`video/frames/`, circa 49 MB) **non sono nel repository**: si ricostruiscono con i passi qui sotto.
+
+## Ricostruire il video
+1. **Render in Fusion.** Copia `video/fusion_scripts/Powerbench360Render` in
+   `%APPDATA%\Autodesk\Autodesk Fusion 360\API\Scripts\`, apri il modello (workspace Render, materiali e ambiente già
+   impostati), Shift+S → **Powerbench360Render** → **Run**. Non toccare la vista e lascia Fusion aperto finché non finisce
+   (circa 10 minuti). Il renderer ignora l'opacità, quindi lo script fa due passate:
+   - `video/frames/visible/` — 72 frame con la shell visibile
+   - `video/frames/hidden/` — frame 10–58 con la shell nascosta
+
+   Impostazioni: 1280×720, qualità 40; la camera ruota attorno al centro del modello partendo dalla vista corrente,
+   con elevazione e distanza fisse (`ELEVATION_DEG`, `FIT` nello script).
+2. **Dissolvenza:** `python video/tools/blend_shell.py` → `video/frames/blended/`
+   (sparisce tra il 15% e il 35% del giro, nascosta fino al 60%, riappare entro l'80%).
+3. **Slow motion:** `python video/tools/slowmo_fluido.py` → il video finale.
+
+Lo slow motion è un'interpolazione a movimento stimato 4x, riprodotta a 48 fps (3 s → 5,9 s):
 
 ```bash
 ffmpeg -framerate 24 -i video/frames/blended/frame_%04d.png \
   -vf "setsar=1,minterpolate=fps=96:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1:scd=none,setpts=2*PTS" \
   -r 48 -c:v libx264 -pix_fmt yuv420p -crf 15 -movflags +faststart video/powerbench_360_slowmo_fluido.mp4
 ```
-Per la versione a dissolvenza sostituire `mi_mode=mci:...` con `mi_mode=blend` e aggiungere `hqdn3d=0:0:4:4`.
-
-## Script Fusion (`video/fusion_scripts/`)
-Si installano copiando le cartelle in `%APPDATA%\Autodesk\Autodesk Fusion 360\API\Scripts\` e si lanciano con Shift+S.
-- `Powerbench360` — cattura il viewport, un PNG per frame (anteprima del movimento).
-- `Powerbench360Render` — versione attuale a 216 frame in due passate (shell visibile / nascosta), camera con elevazione fissa.
-  I 72 frame di questo progetto sono stati fatti con una versione precedente più semplice (stessa idea, 72 frame).
-- `Powerbench360Viewport` — cattura viewport con opacità della shell: **non usabile** su questo modello
-  (la shell appare semi-trasparente nel viewport e non sparisce).
 
 ## Note
-- La vista di partenza è quella corrente di Fusion; la camera ruota attorno al centro del bounding box.
-- ffmpeg: `winget install Gyan.FFmpeg`.
-
-## Nel repository
-- Su GitHub c'è solo il video finale (`video/powerbench_360_slowmo_fluido.mp4`), per occupare poco spazio.
-- I frame PNG intermedi (49 MB) e le versioni intermedie del video restano solo in locale (vedi `.gitignore`); si rigenerano con gli script Fusion.
+- Il render dei 72 frame nel video attuale è stato fatto con una versione precedente dello script; la logica è la stessa,
+  ma la camera può differire leggermente. I passi 2 e 3 sulle frame esistenti riproducono il video identico.
+- Il viewport di Fusion non è utilizzabile per questo effetto: su questo modello la shell appare semi-trasparente e non sparisce.

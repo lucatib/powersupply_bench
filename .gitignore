@@ -1,6 +1,2 @@
-﻿# Frame PNG intermedi del video (49 MB, rigenerabili da Fusion): solo in locale
+﻿# Frame PNG intermedi del video (circa 49 MB): si ricostruiscono, vedi docs/video-pipeline.md
 video/frames/
-# Versioni intermedie del video: si tiene solo quello finale
-video/powerbench_360_slowmo.mp4
-video/powerbench_360_slowmo_dissolvenza.mp4
-video/powerbench_360_dissolvenza.mp4

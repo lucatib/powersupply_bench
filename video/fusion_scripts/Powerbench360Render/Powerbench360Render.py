@@ -1,16 +1,16 @@
 # Giro 360° lento con dissolvenza della shell: renderizza i frame veri, in due passate.
-#   1) shell visibile  -> Videos\powerbench_360_r216
-#   2) shell nascosta (solo dove serve) -> Videos\powerbench_360_r216_hidden
+#   1) shell visibile  -> video\frames\visible
+#   2) shell nascosta (solo dove serve) -> video\frames\hidden
 # La sfumatura tra le due serie la fa ffmpeg. I frame già presenti vengono saltati.
 
 import adsk.core, adsk.fusion, math, os, time, traceback
 
-FRAMES = 216            # 216 frame a 24 fps = 9 secondi
-QUALITY = 40            # uguale alle passate precedenti (frame riusati)
+FRAMES = 72             # 72 frame = 3 secondi a 24 fps (poi rallentati da tools/slowmo_fluido.py)
+QUALITY = 40            # 25-100: 75 = 'Final'
 RESOLUTION = adsk.fusion.RenderResolutions.Video1280x720RenderResolution
-VIDEOS = os.path.join(os.path.expanduser('~'), 'Videos')
-DIR_A = os.path.join(VIDEOS, 'powerbench_360_s216')
-DIR_B = os.path.join(VIDEOS, 'powerbench_360_s216_hidden')
+FRAMES_DIR = r'C:\Workspace\powersupply_bench\video\frames'
+DIR_A = os.path.join(FRAMES_DIR, 'visible')
+DIR_B = os.path.join(FRAMES_DIR, 'hidden')
 
 # Camera deterministica: elevazione e distanza fissate qui, solo la direzione orizzontale
 # di partenza viene presa dalla vista corrente. Così tutti i frame hanno la stessa inquadratura.
@@ -29,7 +29,7 @@ def log(msg):
         f.write('%s %s\n' % (time.strftime('%H:%M:%S'), msg))
 
 
-log('modulo caricato (giro lento 216)')
+log('modulo caricato')
 
 
 def snap_axis(v):
