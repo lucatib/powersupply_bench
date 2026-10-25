@@ -1,16 +1,16 @@
-﻿# Esportare i design dal cloud Fusion
+﻿# Exporting the designs from the Fusion cloud
 
-Lo script `tools/ExportPowerSupply` esporta tutti i design del progetto cloud **PowerSupply_Bench** come archivi `.f3d`
-in `models/` (sola lettura: non salva nulla nel cloud, i file già aperti restano aperti).
+The `tools/ExportPowerSupply` script exports every design in the cloud project **PowerSupply_Bench** as `.f3d` archives
+into `models/` (read-only: nothing is saved to the cloud, and files that are already open stay open).
 
-1. Copia `tools/ExportPowerSupply` in `%APPDATA%\Autodesk\Autodesk Fusion 360\API\Scripts\`.
-2. In Fusion: Shift+S → **ExportPowerSupply** → **Run** (se non compare, chiudi e riapri la finestra).
-3. Il log è in `run.log` accanto allo script.
+1. Copy `tools/ExportPowerSupply` to `%APPDATA%\Autodesk\Autodesk Fusion 360\API\Scripts\`.
+2. In Fusion: Shift+S → **ExportPowerSupply** → **Run** (if it does not appear, close and reopen the window).
+3. The log is in `run.log` next to the script.
 
-Gli `.f3d` sono già compressi (zip): ricomprimerli non conviene e può renderli illeggibili.
+The `.f3d` files are already compressed (zip): compressing them again does not help and can make them unreadable.
 
-## STEP e 3MF (`step/`)
-| File | Dimensione |
+## STEP and 3MF (`step/`)
+| File | Size |
 |---|---|
 | Case.3mf | 7.02 MB |
 | Case_back.step | 0.14 MB |
@@ -22,4 +22,4 @@ Gli `.f3d` sono già compressi (zip): ricomprimerli non conviene e può renderli
 | Fan_grid.step | 0.48 MB |
 | Foot.step | 0.03 MB |
 
-I `.step` sono testo e Git li comprime bene; `Case.3mf` è già compresso (zip).
+The `.step` files are text and Git compresses them well; `Case.3mf` is already compressed (zip).

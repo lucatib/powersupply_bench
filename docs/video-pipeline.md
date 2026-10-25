@@ -1,33 +1,33 @@
-# Video del giro a 360° (slow motion fluido)
+# 360° turntable video (smooth slow motion)
 
-File finale: `video/powerbench_360_slowmo_fluido.mp4` — 5,9 s, 1280×720, 48 fps (144 frame renderizzati). Giro di camera attorno al modello
-con la shell (BodyTop, BodyBot, BodyLeft, BodyRight, Front, Back) che sfuma e riappare prima di chiudere il cerchio.
+Final file: `video/powerbench_360_slowmo_fluido.mp4` — 5.9 s, 1280×720, 48 fps (144 rendered frames). The camera circles the model
+while the shell (BodyTop, BodyBot, BodyLeft, BodyRight, Front, Back) fades out and comes back before the loop closes.
 
-## Cosa serve
-| File | Ruolo |
+## What you need
+| File | Role |
 |---|---|
-| `video/fusion_scripts/Powerbench360Render` | Script Fusion: renderizza i 144 frame, in due passate |
-| `video/tools/blend_shell.py` | Sfuma la shell mescolando le due passate |
-| `video/tools/slowmo_fluido.py` | Slow motion (ffmpeg) → mp4 finale |
+| `video/fusion_scripts/Powerbench360Render` | Fusion script: renders the 144 frames in two passes |
+| `video/tools/blend_shell.py` | Fades the shell by blending the two passes |
+| `video/tools/slowmo_fluido.py` | Slow motion (ffmpeg) → final mp4 |
 | ffmpeg | `winget install Gyan.FFmpeg` |
 
-I frame PNG (`video/frames/`, circa 49 MB) **non sono nel repository**: si ricostruiscono con i passi qui sotto.
+The PNG frames (`video/frames/`, about 49 MB) **are not in the repository**: rebuild them with the steps below.
 
-## Ricostruire il video
-1. **Render in Fusion.** Copia `video/fusion_scripts/Powerbench360Render` in
-   `%APPDATA%\Autodesk\Autodesk Fusion 360\API\Scripts\`, apri il modello (workspace Render, materiali e ambiente già
-   impostati), Shift+S → **Powerbench360Render** → **Run**. Non toccare la vista e lascia Fusion aperto finché non finisce
-   (circa 25-30 minuti). Il renderer ignora l'opacità, quindi lo script fa due passate:
-   - `video/frames/visible/` — 144 frame con la shell visibile
-   - `video/frames/hidden/` — frame 21–116 con la shell nascosta
+## Rebuilding the video
+1. **Render in Fusion.** Copy `video/fusion_scripts/Powerbench360Render` to
+   `%APPDATA%\Autodesk\Autodesk Fusion 360\API\Scripts\`, open the model (Render workspace, with materials and environment
+   already set), Shift+S → **Powerbench360Render** → **Run**. Do not touch the view and leave Fusion open until it finishes
+   (about 25–30 minutes). The renderer ignores opacity, so the script makes two passes:
+   - `video/frames/visible/` — 144 frames with the shell visible
+   - `video/frames/hidden/` — frames 21–116 with the shell hidden
 
-   Impostazioni: 1280×720, qualità 40; la camera ruota attorno al centro del modello partendo dalla vista corrente,
-   con elevazione e distanza fisse (`ELEVATION_DEG`, `FIT` nello script).
-2. **Dissolvenza:** `python video/tools/blend_shell.py` → `video/frames/blended/`
-   (sparisce tra il 15% e il 35% del giro, nascosta fino al 60%, riappare entro l'80%).
-3. **Slow motion:** `python video/tools/slowmo_fluido.py` → il video finale.
+   Settings: 1280×720, quality 40; the camera turns around the centre of the model starting from the current view,
+   with fixed elevation and distance (`ELEVATION_DEG`, `FIT` in the script).
+2. **Fade:** `python video/tools/blend_shell.py` → `video/frames/blended/`
+   (fades out between 15% and 35% of the turn, stays hidden until 60%, is back by 80%).
+3. **Slow motion:** `python video/tools/slowmo_fluido.py` → the final video.
 
-Lo slow motion porta i 144 frame veri (24 fps, 6 s) a 48 fps con un'interpolazione a movimento stimato 2x:
+Slow motion takes the 144 real frames (24 fps, 6 s) to 48 fps with 2x motion-compensated interpolation:
 
 ```bash
 ffmpeg -framerate 24 -i video/frames/blended/frame_%04d.png \
@@ -35,7 +35,7 @@ ffmpeg -framerate 24 -i video/frames/blended/frame_%04d.png \
   -r 48 -c:v libx264 -pix_fmt yuv420p -crf 15 -movflags +faststart video/powerbench_360_slowmo_fluido.mp4
 ```
 
-## Note
-- Con 72 frame e interpolazione 4x le sei banane del connettore (oggetti uguali e vicini) venivano sdoppiate nei frame inventati e sfarfallavano: per questo ora i frame renderizzati sono 144 e l'interpolazione è solo 2x.
-- La camera parte dalla vista corrente di Fusion, con elevazione (`ELEVATION_DEG`) e distanza (`FIT`) fisse nello script.
-- Il viewport di Fusion non è utilizzabile per questo effetto: su questo modello la shell appare semi-trasparente e non sparisce.
+## Notes
+- With 72 frames and 4x interpolation, the six banana posts on the connector (identical objects close together) were doubled in the invented frames and flickered: that is why 144 frames are now rendered and the interpolation is only 2x.
+- The camera starts from the current Fusion view, with elevation (`ELEVATION_DEG`) and distance (`FIT`) fixed in the script.
+- The Fusion viewport cannot be used for this effect: on this model the shell looks semi-transparent and does not disappear.
