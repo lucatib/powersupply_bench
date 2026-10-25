@@ -1,0 +1,5 @@
+﻿# Archivi Fusion e STEP sono già compressi: niente delta, nessun fine-riga da convertire
+*.f3d binary
+*.f3z binary
+*.step binary
+*.stp binary
