@@ -5,7 +5,7 @@
 
 import adsk.core, adsk.fusion, math, os, time, traceback
 
-FRAMES = 72             # 72 frame = 3 secondi a 24 fps (poi rallentati da tools/slowmo_fluido.py)
+FRAMES = 144            # 144 frame = 6 secondi a 24 fps (poi portati a 48 fps da tools/slowmo_fluido.py)
 QUALITY = 40            # 25-100: 75 = 'Final'
 RESOLUTION = adsk.fusion.RenderResolutions.Video1280x720RenderResolution
 FRAMES_DIR = r'C:\Workspace\powersupply_bench\video\frames'

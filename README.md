@@ -28,7 +28,13 @@ In Fusion: **File → Open → Open from my computer**, oppure trascina il file 
 Lo script `tools/ExportPowerSupply` esporta tutti i design del progetto (sola lettura, non salva nulla nel cloud).
 Copia la cartella in `%APPDATA%\Autodesk\Autodesk Fusion 360\API\Scripts\`, poi in Fusion Shift+S → **ExportPowerSupply** → **Run**.
 
+## Componenti principali
+- **2× ZK-6522C**: moduli step-down (buck) CNC a tensione e corrente costanti, con display a colori. Dati da scheda di vendita (non da datasheet del produttore, verificali sul tuo esemplare):
+  - ingresso 6–75 V DC;
+  - uscita 0–65 V (massimo circa ingresso × 0,95 − 1 V), risoluzione 0,01 V;
+  - corrente 0–22 A, risoluzione 0,01 A;
+  - potenza massima 1430 W per modulo.
 ## Altre cartelle
 - `step/` — pezzi del case in STEP/3MF per stampa e CAM (dettagli in [docs/export-fusion.md](docs/export-fusion.md)).
 - `video/` — video del giro a 360° con la shell che sfuma (solo la versione fluida) con gli script per ricostruirlo ([docs/video-pipeline.md](docs/video-pipeline.md)).
-- `docs/` — documentazione.
+- `docs/` — documentazione, compresa la [lista dei componenti acquistati](docs/componenti.md) con i link.

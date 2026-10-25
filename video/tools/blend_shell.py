@@ -7,10 +7,10 @@ FF = "ffmpeg"  # winget install Gyan.FFmpeg
 A_DIR = os.path.join(ROOT, "frames", "visible")
 B_DIR = os.path.join(ROOT, "frames", "hidden")
 TMP = os.path.join(ROOT, "frames", "blended")
-FRAMES = 72
+FRAMES = 144
 FADE_OUT = (0.15, 0.35)
 FADE_IN = (0.60, 0.80)
-EXPECTED_B = 49
+EXPECTED_B = 96
 
 def smooth(a, b, t):
     x = min(1.0, max(0.0, (t - a) / (b - a)))
@@ -20,7 +20,7 @@ def alpha(t):
     return 1.0 - smooth(*FADE_OUT, t) * (1.0 - smooth(*FADE_IN, t))
 
 # aspetta i frame nascosti
-deadline = time.time() + 25 * 60
+deadline = time.time() + 90 * 60
 last, last_change = -1, time.time()
 while True:
     n = len([f for f in os.listdir(B_DIR) if f.startswith("frame_")]) if os.path.isdir(B_DIR) else 0
