@@ -1,0 +1,12 @@
+{
+    "autodeskProduct": "Fusion",
+    "type": "script",
+    "id": "63c41e77-04ab-4da5-89cf-1ed51e99c168",
+    "author": "",
+    "description": {
+        "": "Rotazione 360 renderizzata con il ray tracing locale di Fusion"
+    },
+    "version": "1.0.0",
+    "supportedOS": "windows|mac",
+    "editEnabled": true
+}

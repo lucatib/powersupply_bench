@@ -1,0 +1,12 @@
+{
+    "autodeskProduct": "Fusion",
+    "type": "script",
+    "id": "cf3ab9ca-2d5f-4d9b-b3f7-15c0b04da88b",
+    "author": "",
+    "description": {
+        "": "Giro 360 dal viewport con dissolvenza della shell"
+    },
+    "version": "1.0.0",
+    "supportedOS": "windows|mac",
+    "editEnabled": true
+}

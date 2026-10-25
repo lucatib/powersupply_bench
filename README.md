@@ -27,3 +27,8 @@ In Fusion: **File → Open → Open from my computer**, oppure trascina il file 
 ## Riesportare dal cloud
 Lo script `tools/ExportPowerSupply` esporta tutti i design del progetto (sola lettura, non salva nulla nel cloud).
 Copia la cartella in `%APPDATA%\Autodesk\Autodesk Fusion 360\API\Scripts\`, poi in Fusion Shift+S → **ExportPowerSupply** → **Run**.
+
+## Altre cartelle
+- `step/` — pezzi del case in STEP/3MF per stampa e CAM (dettagli in [docs/export-fusion.md](docs/export-fusion.md)).
+- `video/` — video del giro a 360° con la shell che sfuma, script Fusion e di montaggio ([docs/video-pipeline.md](docs/video-pipeline.md)).
+- `docs/` — documentazione.
