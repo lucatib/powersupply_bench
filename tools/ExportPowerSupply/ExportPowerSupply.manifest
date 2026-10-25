@@ -1,0 +1,12 @@
+{
+    "autodeskProduct": "Fusion",
+    "type": "script",
+    "id": "ad5f4c78-acf4-4db7-97c2-db050c7db05e",
+    "author": "",
+    "description": {
+        "": "Esporta i design del progetto PowerSupply_Bench come .f3d"
+    },
+    "version": "1.0.0",
+    "supportedOS": "windows|mac",
+    "editEnabled": true
+}
