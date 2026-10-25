@@ -1,10 +1,10 @@
 # powersupply_bench
 
-Modello 3D (Autodesk Fusion) del banco alimentatore: 12 design del progetto cloud **PowerSupply_Bench**,
-esportati come archivi Fusion (`.f3d`).
+3D model (Autodesk Fusion) of the bench power supply: 12 designs from the cloud project **PowerSupply_Bench**,
+exported as Fusion archives (`.f3d`).
 
-## Contenuto (models/)
-| Design | Dimensione |
+## Contents (models/)
+| Design | Size |
 |---|---|
 | AC 3-Pin With Fuse | 2.25 MB |
 | ANTI-VANDAL PUSH BUTTON DIA.22 | 0.24 MB |
@@ -19,22 +19,16 @@ esportati come archivi Fusion (`.f3d`).
 | TempControl | 2.72 MB |
 | Temperature Clip | 0.25 MB |
 
-Totale circa 15,7 MB. Gli `.f3d` sono già compressi (zip): nessun'altra compressione conviene.
+About 15.7 MB in total. The `.f3d` files are already compressed (zip): further compression does not help.
 
-## Aprirli
-In Fusion: **File → Open → Open from my computer**, oppure trascina il file nella finestra.
+## Opening them
+In Fusion: **File → Open → Open from my computer**, or drag the file into the window.
 
-## Riesportare dal cloud
-Lo script `tools/ExportPowerSupply` esporta tutti i design del progetto (sola lettura, non salva nulla nel cloud).
-Copia la cartella in `%APPDATA%\Autodesk\Autodesk Fusion 360\API\Scripts\`, poi in Fusion Shift+S → **ExportPowerSupply** → **Run**.
+## Re-exporting from the cloud
+The `tools/ExportPowerSupply` script exports every design in the project (read-only, nothing is saved to the cloud).
+Copy the folder to `%APPDATA%\Autodesk\Autodesk Fusion 360\API\Scripts\`, then in Fusion press Shift+S → **ExportPowerSupply** → **Run**.
 
-## Componenti principali
-- **2× ZK-6522C**: moduli step-down (buck) CNC a tensione e corrente costanti, con display a colori. Dati da scheda di vendita (non da datasheet del produttore, verificali sul tuo esemplare):
-  - ingresso 6–75 V DC;
-  - uscita 0–65 V (massimo circa ingresso × 0,95 − 1 V), risoluzione 0,01 V;
-  - corrente 0–22 A, risoluzione 0,01 A;
-  - potenza massima 1430 W per modulo.
-## Altre cartelle
-- `step/` — pezzi del case in STEP/3MF per stampa e CAM (dettagli in [docs/export-fusion.md](docs/export-fusion.md)).
-- `video/` — video del giro a 360° con la shell che sfuma (solo la versione fluida) con gli script per ricostruirlo ([docs/video-pipeline.md](docs/video-pipeline.md)).
-- `docs/` — documentazione, compresa la [lista dei componenti acquistati](docs/componenti.md) con i link.
+## Other folders
+- `step/` — case parts as STEP/3MF for printing and CAM (details in [docs/export-fusion.md](docs/export-fusion.md)).
+- `video/` — 360° turntable video with the fading shell (smooth version only), with the scripts to rebuild it ([docs/video-pipeline.md](docs/video-pipeline.md)).
+- `docs/` — documentation, including the [list of components](docs/components.md) with links.
